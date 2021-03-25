@@ -8,7 +8,7 @@ p224r63_2011
 
 plot(p224r63_2011)
 
-#color change
+#cambio scala dei colori
 cl <- colorRampPalette(c('light blue','blue','green'))(100) 
 plot(p224r63_2011, col=cl)
 
