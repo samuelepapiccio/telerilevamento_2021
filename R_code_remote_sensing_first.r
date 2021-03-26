@@ -62,3 +62,45 @@ plot(p224r63_2011$B1_sre,col=clb)
 plot(p224r63_2011$B2_sre,col=clg)
 plot(p224r63_2011$B3_sre,col=clr)
 plot(p224r63_2011$B4_sre,col=clnir)
+
+#RGB, proviamo varie combinazioni
+plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
+
+#esercizio: mount a 2x2 multiframe
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
+
+#esportare l'immagine in PDF
+pdf("my_first_R_PDF.pdf")
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
+dev.off()
+
+#stretch Histogram
+par(mfrow=c(2,2))
+plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="hist")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="hist")
+
+#par natural colour, false colour and false colour with histogram stretching
+par(mfrow=c(3,1))
+plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
+
+#installo RStoolbox
+install.packages("RStoolbox")
+library(RStoolbox)
+
+
+
