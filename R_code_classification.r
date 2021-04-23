@@ -23,3 +23,20 @@ sun<-brick("sun.png")
 suncl<-unsuperClass(sun,nClasses=3)
 plot(suncl$map)
 
+#Grand Canyon
+#https://landsat.visibleearth.nasa.gov/view.php?id=80948
+
+setwd("/Users/samuelepapiccio/lab/")
+library(raster)
+library(RStoolbox)
+
+gc<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
+plotRGB(gc,1,2,3,stretch="lin")
+plotRGB(gc,1,2,3,stretch="hist")
+
+#Unsupervised Classification
+gcc2<-unsuperClass(gc,nClasses=2)
+plot(gcc2$map)
+
+gcc4<-unsuperClass(gc,nClasses=4)
+plot(gcc4$map)
