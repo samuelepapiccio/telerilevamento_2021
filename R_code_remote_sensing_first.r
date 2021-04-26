@@ -1,14 +1,17 @@
 # My first code in R for remote sensing!
 
+#set working directory and load raster package
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 
+#create a rasterBrick object
 p224r63_2011 <-brick("p224r63_2011_masked.grd")
 p224r63_2011
 
+#visualize the result
 plot(p224r63_2011)
 
-#cambio scala dei colori
+#change colour ramp
 cl <- colorRampPalette(c('light blue','blue','green'))(100) 
 plot(p224r63_2011, col=cl)
 
