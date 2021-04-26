@@ -1,5 +1,6 @@
 #R Code Classification
 
+#set working directory and load packages "raster" and "RStoolbox"
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
@@ -26,17 +27,19 @@ plot(suncl$map)
 #Grand Canyon
 #https://landsat.visibleearth.nasa.gov/view.php?id=80948
 
-setwd("/Users/samuelepapiccio/lab/")
-library(raster)
-library(RStoolbox)
+#setwd("/Users/samuelepapiccio/lab/")
+#library(raster)
+#library(RStoolbox)
 
+#function brick: create a raster brick object
 gc<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
 plotRGB(gc,1,2,3,stretch="lin")
 plotRGB(gc,1,2,3,stretch="hist")
 
-#Unsupervised Classification
+#Unsupervised Classification with 2 classes
 gcc2<-unsuperClass(gc,nClasses=2)
 plot(gcc2$map)
 
+#Unsupervised Classification with 4 classes
 gcc4<-unsuperClass(gc,nClasses=4)
 plot(gcc4$map)
