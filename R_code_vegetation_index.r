@@ -3,7 +3,8 @@
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
-
+library(rasterdiv) #for the wordlwide NDVI
+library(rasterVis)
 
 #
 defor1<- brick("defor1.jpg")
@@ -75,4 +76,10 @@ plot(vi2,col=cl)
 difndvi<-ndvi1-ndvi2
 plot(difndvi,col=cld)
 
+#wordlwide NDVI
+plot(copNDVI)
 
+#Eliniminiamo l'acqua
+copNDVI<-raster::reclassify(copNDVI, cbind(253:255, NA))
+plot(copNDVI)
+levelplot(copNDVI)
