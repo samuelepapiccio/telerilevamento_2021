@@ -6,7 +6,7 @@ library(RStoolbox)
 library(rasterdiv) #for the wordlwide NDVI
 library(rasterVis)
 
-#
+#function brick
 defor1<- brick("defor1.jpg")
 defor2<- brick("defor2.jpg")
 
