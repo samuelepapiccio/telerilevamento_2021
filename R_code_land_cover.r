@@ -18,7 +18,7 @@ ggRGB(defor2, r=1,g=2,b=3,stretch="lin")
 
 par(mfrow=c(1,2))
 ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
-ggRGB(defor2, r=1,g=2,b=3,stretch="lin")
+ggRGB(defor2, r=1,g=2,b=3,stretch="lin") 
 
 #multiframe with ggplot2 and gridextra
 p1<-ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
@@ -36,7 +36,7 @@ plot(d2c$map)
 
 #class1: agriculture
 #class2:forest
-
+ 
 #unsupervised classification
 #3classes
 
@@ -44,7 +44,7 @@ d1c3<-unsuperClass(defor1,nClasses=3 )
 plot(d1c3$map)
 
 d2c3<-unsuperClass(defor2,nClasses=3 )
-plot(d2c3$map)
+plot(d2c3$map) 
 ######################### MAP 1
 #frequencies
 freq(d1c$map)
@@ -62,7 +62,7 @@ prop1<-freq(d1c$map)/s1
 
 ######################## MAP2
 
-#frequencies
+#frequencies 
 freq(d2c$map)
 
 #     value  count
