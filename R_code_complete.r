@@ -192,18 +192,21 @@ levelplot(TGr)
 levelplot(TGr$lst_2000)
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
 levelplot(TGr, col.regions=cl)
-#rinomino i titoli delle singole immagini
+
+#rename the titles of the single images
 levelplot(TGr,col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
-#inserisco il titolo
+#insert the main title
 levelplot(TGr,col.regions=cl, main="LST variation in time",names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
 
 #melt
-#creo una lista
+
+#create a list of files
 meltlist<-list.files(pattern="melt")
-#applico la funzione raster alla lista
+#apply raster function at the list of files
 import_melt<-lapply(meltlist,raster)
 melt<-stack(import_melt)
 
+#plot the result
 levelplot(melt)
 
 melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
@@ -220,17 +223,19 @@ levelplot(melt_amount, col.regions=clb)
 #visualizing copernicus data
 
 #install.packages("ncdf4")
+
+#set working directory and load "raster" and "ncdf4" packages
 library(raster)
 library(ncdf4)
-
 setwd("/Users/samuelepapiccio/lab/")
 
 #Burned Area
+#load the image with burned area in raster format, change color ramp palette and plot the results
 burnedarea<-raster("c_gls_BA300_202009200000_GLOBE_PROBAV_V1.1.1.nc")
 cl<-colorRampPalette(c("black","red","pink"))(100)
 plot(burnedarea,col=cl)
 
-#aggregate files, ricampionamento bi-lineare
+#aggregate files ( bi-linear resampling)
 ba_res<-aggregate(burnedarea,fact=25)
 plot(ba_res,col=cl)
 
@@ -240,6 +245,7 @@ plot(ba_res,col=cl)
  
  #R_code_knitr.r
 
+#set working directory and load "knitr" package
 setwd("/Users/samuelepapiccio/lab/")
 library(knitr)
 
@@ -252,23 +258,25 @@ stitch("R_code_greenland.r", template=system.file("misc", "knitr-template.Rnw", 
 
 #R_code_multivariate_analysis.r
 
+#set working directory and load "raster" and "RStoolbox" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 
-#
+#create a rasterBrick object and plot it
 p224r63_2011<-brick("p224r63_2011_masked.grd")
 plot(p224r63_2011)
 
-#plottiamo i valori della banda 1 contro i valori della banda 2
-#pch:cambio la forma dei punti, cex:cambio la dimensione dei punti
+#plot in a graph the values of the band 1 and the values of the band 2
+#pch:change the shape of points 
+#cex:change the dimension of points
 plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="red",pch=19,cex=2)
 
-#plottiamo tutte le correlazioni possibili con la funzione pairs
+#plot all the possible correlations with the function "pairs"
 pairs(p224r63_2011)
 
 
-#aggregate cells: resampling (ricampionamento)
+#aggregate cells: resampling
 p224r63_2011res<-aggregate(p224r63_2011,fact=10,fun=mean)
 par(mfrow=c(2,1))
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="lin")
@@ -287,7 +295,7 @@ plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="lin")
 
 #R Code Classification
 
-#set working directory and load packages "raster" and "RStoolbox"
+#set working directory and load "raster" and "RStoolbox" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
@@ -314,10 +322,6 @@ plot(suncl$map)
 #Grand Canyon
 #https://landsat.visibleearth.nasa.gov/view.php?id=80948
 
-#setwd("/Users/samuelepapiccio/lab/")
-#library(raster)
-#library(RStoolbox)
-
 #function brick: create a raster brick object
 gc<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
 plotRGB(gc,1,2,3,stretch="lin")
@@ -335,13 +339,14 @@ plot(gcc4$map)
 
 # 7. R code ggplot2
 
+#set working directory and load "raster","RStoolbox","ggplot2" and "gridExtra" packages
 library(raster)
 library(RStoolbox)
 library(ggplot2)
 library(gridExtra)
-
 setwd("~/lab/")
 
+#function brick: create a raster brick object
 p224r63 <- brick("p224r63_2011_masked.grd")
 
 ggRGB(p224r63,3,2,1, stretch="lin")
@@ -358,13 +363,14 @@ grid.arrange(p1, p2, nrow = 2) # this needs gridExtra
 
 #R_code_vegetation_index.r
 
+#set working directory and load "raster","RStoolbox","rasterdiv" and "rasterVis" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 library(rasterdiv) #for the wordlwide NDVI
 library(rasterVis)
 
-#function brick
+#function brick: create a raster brick object
 defor1<- brick("defor1.jpg")
 defor2<- brick("defor2.jpg")
 
@@ -450,12 +456,14 @@ levelplot(copNDVI)
 #MAP1 1992
 #MAP2 2006
 
+#set working directory and load "raster","RStoolbox","ggplot2" and "gridExtra" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(ggplot2)
 library(RStoolbox)
 library(gridExtra)
 
+#function brick: create a raster brick object and plot the results
 defor1<-brick("defor1.jpg")
 plotRGB(defor1, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
@@ -550,6 +558,7 @@ grid.arrange(p1,p2,nrow=1)
 
 #R_code_variability.r #19/05/2020
 
+#set working directory and load "raster","RStoolbox","ggplot2", "viridis" and "gridExtra" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
@@ -557,8 +566,10 @@ library(gridExtra) #for plotting ggplot togheder
 library(ggplot2)# for ggplotplotting
 library(viridis) #for ggplot colouring
 
+#function brick: create a raster brick object
 sent<-brick("sentinel.png")
-# default r=1,g=2,b=3
+
+#default r=1,g=2,b=3
 plotRGB(sent,stretch="lin") # = plotRGB(sent,r=1,g=2,b=3,stretch="lin")
 plotRGB(sent,r=2,g=1,b=3,stretch="lin")
 
@@ -593,7 +604,7 @@ sentpca<- rasterPCA(sent)
 plot(sentpca$map)
 
 summary(sentpca$map)
-#the first PC contai the 67.36% of original information
+#the first PC contain the 67.36% of original information
 
 ############################
 pc1 <- sentpca$map$PC1
@@ -660,13 +671,13 @@ grid.arrange(p1, p2, p3, nrow = 1)
 
 # Rcode_spectral_signatures.r
 
+#set working directory and load "raster","rgdal" and "ggplot2" packages
 library(raster)
 library(rgdal)
 library(ggplot2)
-
 setwd("/Users/samuelepapiccio/lab/")
 
-
+#function brick: create a raster brick object
 defor2<-brick("defor2.jpg")
 
 plotRGB(defor2,r=1,g=2,b=3, stretch="lin")
@@ -686,17 +697,15 @@ forest<- c(197,8,15)
 water<-c(72,91,139)
 
 #create the dataframe
-
 spectrals<-data.frame(band,forest,water)
 
 #plot the spectrals signatures
-
 ggplot(spectrals, aes(x=band))+
  geom_line(aes(y=forest), color="green")+
  geom_line(aes(y=water), color="blue")+
  labs(x="wavelength",y="reflectance")
  
- ###################### Multitemporal
+ ####################------Multitemporal---#################################
  
  defor1<-brick("defor1.jpg")
 plotRGB(defor1,r=1,g=2,b=3, stretch="lin")
@@ -713,7 +722,7 @@ click(defor1, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="magenta")
 #1 101.5 333.5 102918    233       17       38
 
 #results defor2:
-     x     y  cell defor2.1 defor2.2 defor2.3
+#     x     y  cell defor2.1 defor2.2 defor2.3
 #1 76.5 342.5 96872      180      166      157
 #1 74.5 374.5 73926      185       90       94
 #1 93.5 381.5 68926      195        7       21
@@ -721,7 +730,7 @@ click(defor1, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="magenta")
 #1 99.5 339.5 99046      115       80       76
 
  
- #define the columns of the dataset:
+#define the columns of the dataset:
 band<- c(1,2,3)
 time1<- c(223,14,35)
 time1p2<-c(230,24,44)
@@ -746,7 +755,7 @@ plotRGB(eo,1,2,3, stretch="hist")
 click(eo, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="magenta")
 
 #results:
-       x      y     cell eo.1 eo.2 eo.3
+#       x      y     cell eo.1 eo.2 eo.3
 #1 3601.5 2380.5 22743242    1   22   51
 #1 2615.5 2934.5 19481966  176  152  124
 
