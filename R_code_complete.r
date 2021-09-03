@@ -3,8 +3,9 @@
 #-----------------------------------------------
 
 #Summary:
+
 # 1. R code remote sensing first code
-# 2. R code Time series greenland
+# 2. R code Time series Greenland
 # 3. R code Copernicus
 # 4. R code knitr
 # 5. R code multivariate analysis
@@ -16,11 +17,12 @@
 # 11. R code spectral signatures
 
 #-----------------------------------------------
+
 # 1. remote sensing first code
 
 # My first code in R for remote sensing!
 
-#set working directory and load raster package
+#set working directory and load "raster" package
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 
@@ -28,10 +30,10 @@ library(raster)
 p224r63_2011 <-brick("p224r63_2011_masked.grd")
 p224r63_2011
 
-#visualize the result
+#plot the result
 plot(p224r63_2011)
 
-#change colour ramp
+#change colour ramp and plot the result
 cl <- colorRampPalette(c('light blue','blue','green'))(100) 
 plot(p224r63_2011, col=cl)
 
@@ -46,21 +48,23 @@ plot(p224r63_2011, col=cl)
 
 #clean the current graph
 dev.off()
-#associo l'immagine alla banda 1 e plotto il risultato
+#combine the image at the first band and plot the result
 plot(p224r63_2011$B1_sre)
-#esercizio: plot band 1 with a predefined colut ramp palette
+#plot band 1 with a predefined colut ramp palette
 plot(p224r63_2011$B1_sre,col=cl)
 
-#plotto accanto alla banda del blu anche la banda del verde
+#plot the images of the first two bands of landsat in the same window
+#method 1
 par(mfrow=c(1,2)) #1 row 2 columns
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 
+#method 2
 par(mfrow=c(2,1)) #2 rows 1 column
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 
-#plot the first four bands of landsat
+#plot the images of the first four bands of landsat in the same window
 par(mfrow=c(4,1))
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
@@ -74,7 +78,7 @@ plot(p224r63_2011$B2_sre)
 plot(p224r63_2011$B3_sre)
 plot(p224r63_2011$B4_sre)
 
-#cambio la scala dei colori per le singole bande e le plotto in un quadrato 2x2
+#change the color ramp palette and plot the images in a 2x2 square
 clb <- colorRampPalette(c('dark blue','blue','light blue'))(100)
 clg <- colorRampPalette(c('dark green','green','light green'))(100)
 clr <- colorRampPalette(c('dark red','red','pink'))(100)
@@ -86,20 +90,20 @@ plot(p224r63_2011$B2_sre,col=clg)
 plot(p224r63_2011$B3_sre,col=clr)
 plot(p224r63_2011$B4_sre,col=clnir)
 
-#RGB, proviamo varie combinazioni
+#RGB, let's try various combination
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
 
-#esercizio: mount a 2x2 multiframe
+#mount a 2x2 multiframe
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
 
-#esportare l'immagine in PDF
+#export the results in PDF format
 pdf("my_first_R_PDF.pdf")
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
@@ -121,11 +125,12 @@ plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 
-#installo RStoolbox
+#install and load "RStoolbox" package
 install.packages("RStoolbox")
 library(RStoolbox)
 
 #Multitemporal set
+
 p224r63_1988 <-brick("p224r63_1988_masked.grd")
 p224r63_1988
 
@@ -134,7 +139,7 @@ plotRGB(p224r63_1988, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_1988, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 
-#creare un multiframe con par e poi inserire le due immagini 1988 e 2011
+#create a multiframe 2x2 with the images of 1988 and 2011 with linear and histrogram stretching and export it in PDF format
 pdf("multitemp_PDF.pdf")
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
@@ -143,9 +148,9 @@ plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="hist")
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="hist")
 dev.off()
 
-#-----------------------------------------------
+#-----------------------------------------------------------------------------------
 
-# 2. Time series greenland
+# 2. Time series Greenland
 
 #Time series analisis
 #Greenland increase of temperature
@@ -154,28 +159,29 @@ dev.off()
 #install.packages("raster")
 #install.packages("rasterVis")
 
+#set working directory and load "raster" and "rasterVis" packages
 library(raster)
 library(rasterVis)
 setwd("/Users/samuelepapiccio/lab/greenland")
 
-#importo i file lst con la funzione raster
+#import the files "lst" with the raster function
 lst_2000<-raster("lst_2000.tif")
 lst_2005<-raster("lst_2005.tif")
 lst_2010<-raster("lst_2010.tif")
 lst_2015<-raster("lst_2015.tif")
 
-#par
+#create a multiframe 2x2 with the four images
 par(mfrow=c(2,2))
 plot(lst_2000)
 plot(lst_2005)
 plot(lst_2010)
 plot(lst_2015)
 
-#list of files
+# create a list of files and insert on it all the file in the wd who have "lst" in the name
 list.files()
 rlist<-list.files(pattern="lst")
 
-#apply a function to a list of files
+#apply raster function to a list of files
 import<-lapply(rlist,raster)
 
 TGr<-stack(import)
