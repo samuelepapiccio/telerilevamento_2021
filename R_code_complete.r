@@ -1,7 +1,7 @@
 #R code complete - Telerilevamento Geoecologico
 
 #-----------------------------------------------
-
+                    
 #Summary:
 
 # 1. R code remote sensing first code
@@ -29,7 +29,7 @@ library(raster)
 #create a rasterBrick object
 p224r63_2011 <-brick("p224r63_2011_masked.grd")
 p224r63_2011
-
+   
 #plot the result
 plot(p224r63_2011)
 
