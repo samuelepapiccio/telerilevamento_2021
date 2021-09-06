@@ -18,7 +18,7 @@
 
 #-----------------------------------------------
 
-# 1. remote sensing first code
+# 1. R code remote sensing first code
 
 # My first code in R for remote sensing!
 
@@ -150,7 +150,7 @@ dev.off()
 
 #-----------------------------------------------------------------------------------
 
-# 2. Time series Greenland
+# 2. R code time series Greenland
 
 #Time series analisis
 #Greenland increase of temperature
@@ -219,7 +219,6 @@ levelplot(melt_amount, col.regions=clb)
 
 # 3. R code Copernicus
 
-#R code copernicus
 #visualizing copernicus data
 
 #install.packages("ncdf4")
@@ -235,7 +234,7 @@ burnedarea<-raster("c_gls_BA300_202009200000_GLOBE_PROBAV_V1.1.1.nc")
 cl<-colorRampPalette(c("black","red","pink"))(100)
 plot(burnedarea,col=cl)
 
-#aggregate files ( bi-linear resampling)
+#aggregate files (bi-linear resampling)
 ba_res<-aggregate(burnedarea,fact=25)
 plot(ba_res,col=cl)
 
@@ -274,7 +273,6 @@ plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="red",pch=19,cex=2)
 
 #plot all the possible correlations with the function "pairs"
 pairs(p224r63_2011)
-
 
 #aggregate cells: resampling
 p224r63_2011res<-aggregate(p224r63_2011,fact=10,fun=mean)
@@ -349,6 +347,7 @@ setwd("~/lab/")
 #function brick: create a raster brick object
 p224r63 <- brick("p224r63_2011_masked.grd")
 
+#plot the image with ggRGB
 ggRGB(p224r63,3,2,1, stretch="lin")
 ggRGB(p224r63,4,3,2, stretch="lin")
 
@@ -374,6 +373,7 @@ library(rasterVis)
 defor1<- brick("defor1.jpg")
 defor2<- brick("defor2.jpg")
 
+#plot the images
 par(mfrow=c(2,1))
 plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
@@ -483,7 +483,6 @@ grid.arrange(p1,p2, nrow=2)
 
 #unsupervised classification
 #2 classes
-
 d1c<-unsuperClass(defor1,nClasses=2 )
 plot(d1c$map)
 
