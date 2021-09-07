@@ -90,13 +90,7 @@ plot(p224r63_2011$B2_sre,col=clg)
 plot(p224r63_2011$B3_sre,col=clr)
 plot(p224r63_2011$B4_sre,col=clnir)
 
-#RGB, let's try various combination
-plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
-plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
-plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
-plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
-
-#mount a 2x2 multiframe
+#RGB, let's try various combination in a 2x2 multiframe
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
@@ -184,6 +178,7 @@ rlist<-list.files(pattern="lst")
 #apply raster function to a list of files
 import<-lapply(rlist,raster)
 
+#create a single file with "stack" function and plot it (we can plot all the images without using par ...)
 TGr<-stack(import)
 plot(TGr)
 plotRGB(TGr,1,2,3,stretch="Lin")
@@ -204,9 +199,10 @@ levelplot(TGr,col.regions=cl, main="LST variation in time",names.attr=c("July 20
 meltlist<-list.files(pattern="melt")
 #apply raster function at the list of files
 import_melt<-lapply(meltlist,raster)
+#create a single file with "stack" function and plot it
 melt<-stack(import_melt)
 
-#plot the result
+#plot the result with levelplot
 levelplot(melt)
 
 melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
@@ -248,7 +244,7 @@ plot(ba_res,col=cl)
 setwd("/Users/samuelepapiccio/lab/")
 library(knitr)
 
-#
+#create a report from an r file
 stitch("R_code_greenland.r", template=system.file("misc", "knitr-template.Rnw", package="knitr"))
  
 #-------------------------------------------------------------
@@ -354,6 +350,7 @@ ggRGB(p224r63,4,3,2, stretch="lin")
 p1 <- ggRGB(p224r63,3,2,1, stretch="lin")
 p2 <- ggRGB(p224r63,4,3,2, stretch="lin")
 
+#grid.arrange: arrenge multiple grobs on a page
 grid.arrange(p1, p2, nrow = 2) # this needs gridExtra
 
 #-------------------------------------------------------------
@@ -406,6 +403,7 @@ difdvi<-dvi1-dvi2
 cld <- colorRampPalette(c('blue','white','red'))(100)
 plot(difdvi,col=cld)
 
+#plot DVI at time 1 vs DVI at time 2 and differences
 par(mfrow=c(3,1))
 plot(dvi1, col=cl, main="DVI at time 1")
 plot(dvi2, col=cl, main="DVI at time 2")
@@ -422,6 +420,7 @@ plot(ndvi1,col=cl)
 ndvi2<-(defor2$defor2.1 - defor2$defor2.2)/(defor2$defor2.1 + defor2$defor2.2)
 plot(ndvi2,col=cl)
 
+#plot NDVI at time 1 vs NDVI at time 2 
 par(mfrow=c(2,1))
 plot(ndvi1, col=cl, main="NDVI at time 1")
 plot(ndvi2, col=cl, main="NDVI at time 2")
@@ -464,10 +463,12 @@ library(RStoolbox)
 library(gridExtra)
 
 #function brick: create a raster brick object and plot the results
+#defor 1
 defor1<-brick("defor1.jpg")
 plotRGB(defor1, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
 
+#defor 2
 defor2<-brick("defor2.jpg")
 plotRGB(defor2, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor2, r=1,g=2,b=3,stretch="lin")
