@@ -31,7 +31,7 @@ plot(p224r63_2011$B1_sre)
 #esercizio: plot band 1 with a predefined colut ramp palette
 plot(p224r63_2011$B1_sre,col=cl)
 
-#plotto accanto alla banda del blu anche la banda del verde
+#plotto accanto alla banda del blu anche la banda del verde, c= vettore per quando si hanno più caratteri
 par(mfrow=c(1,2)) #1 row 2 columns
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
