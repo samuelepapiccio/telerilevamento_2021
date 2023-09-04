@@ -66,7 +66,7 @@ plot(p224r63_2011$B2_sre,col=clg)
 plot(p224r63_2011$B3_sre,col=clr)
 plot(p224r63_2011$B4_sre,col=clnir)
 
-#RGB, proviamo varie combinazioni
+#RGB, proviamo varie combinazioni, stretch Lin= applica uno stretch lineare
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
@@ -105,7 +105,7 @@ plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 install.packages("RStoolbox")
 library(RStoolbox)
 
-#Multitemporal set
+#Multitemporal set, carico l'img dell'anno 1988 per confrontarla con quella del 2011
 p224r63_1988 <-brick("p224r63_1988_masked.grd")
 p224r63_1988
 
