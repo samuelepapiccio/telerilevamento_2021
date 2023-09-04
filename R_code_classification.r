@@ -5,7 +5,7 @@ setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 
-#function brick: create a raster brick object
+#function brick: create a raster brick objects
 so<-brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
 
 #Visualize RGB levels
@@ -15,7 +15,7 @@ plotRGB(so,1,2,3,stretch="lin")
 soc<-unsuperClass(so,nClasses=3)
 plot(soc$map)
 
-#Unsupervised Classification with 20 classes
+#Unsupervised classification with 20 classes
 soc20<-unsuperClass(so,nClasses=20)
 plot(soc20$map)
 
