@@ -11,7 +11,7 @@ p224r63_2011
 #visualize the result
 plot(p224r63_2011)
 
-#change colour ramp
+#change colour ramp, (100) = numero di livelli tra il light blue e il green
 cl <- colorRampPalette(c('light blue','blue','green'))(100) 
 plot(p224r63_2011, col=cl)
 
