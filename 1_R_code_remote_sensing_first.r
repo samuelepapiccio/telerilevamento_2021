@@ -4,7 +4,7 @@
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 
-#create a rasterBrick object
+#create a raster Brick object
 p224r63_2011 <-brick("p224r63_2011_masked.grd")
 p224r63_2011
 
