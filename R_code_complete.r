@@ -22,18 +22,18 @@
 
 # My first code in R for remote sensing!
 
-#set working directory and load "raster" package
+#set working directory and load raster package
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 
-#create a rasterBrick object
+#create a raster Brick object
 p224r63_2011 <-brick("p224r63_2011_masked.grd")
 p224r63_2011
-   
-#plot the result
+
+#visualize the result
 plot(p224r63_2011)
 
-#change colour ramp and plot the result
+#change colour ramp, (100) = numero di livelli tra il light blue e il green
 cl <- colorRampPalette(c('light blue','blue','green'))(100) 
 plot(p224r63_2011, col=cl)
 
@@ -48,23 +48,21 @@ plot(p224r63_2011, col=cl)
 
 #clean the current graph
 dev.off()
-#combine the image at the first band and plot the result
+#associo l'immagine alla banda 1 e plotto il risultato
 plot(p224r63_2011$B1_sre)
-#plot band 1 with a predefined colut ramp palette
+#esercizio: plot band 1 with a predefined colut ramp palette
 plot(p224r63_2011$B1_sre,col=cl)
 
-#plot the images of the first two bands of landsat in the same window
-#method 1
+#plotto accanto alla banda del blu anche la banda del verde, c= vettore per quando si hanno più caratteri
 par(mfrow=c(1,2)) #1 row 2 columns
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 
-#method 2
 par(mfrow=c(2,1)) #2 rows 1 column
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
 
-#plot the images of the first four bands of landsat in the same window
+#plot the first four bands of landsat
 par(mfrow=c(4,1))
 plot(p224r63_2011$B1_sre)
 plot(p224r63_2011$B2_sre)
@@ -78,7 +76,7 @@ plot(p224r63_2011$B2_sre)
 plot(p224r63_2011$B3_sre)
 plot(p224r63_2011$B4_sre)
 
-#change the color ramp palette and plot the images in a 2x2 square
+#cambio la scala dei colori per le singole bande e le plotto in un quadrato 2x2
 clb <- colorRampPalette(c('dark blue','blue','light blue'))(100)
 clg <- colorRampPalette(c('dark green','green','light green'))(100)
 clr <- colorRampPalette(c('dark red','red','pink'))(100)
@@ -90,14 +88,20 @@ plot(p224r63_2011$B2_sre,col=clg)
 plot(p224r63_2011$B3_sre,col=clr)
 plot(p224r63_2011$B4_sre,col=clnir)
 
-#RGB, let's try various combination in a 2x2 multiframe
+#RGB, proviamo varie combinazioni, stretch Lin= applica uno stretch lineare
+plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
+plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
+plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
+
+#esercizio: mount a 2x2 multiframe
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=2, b=4, stretch="Lin")
 
-#export the results in PDF format
+#esportare l'immagine in PDF
 pdf("my_first_R_PDF.pdf")
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=1, g=2, b=3, stretch="Lin")
@@ -119,12 +123,11 @@ plotRGB(p224r63_2011, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="Lin")
 plotRGB(p224r63_2011, r=3, g=4, b=2, stretch="hist")
 
-#install and load "RStoolbox" package
+#installo RStoolbox
 install.packages("RStoolbox")
 library(RStoolbox)
 
-#Multitemporal set
-
+#Multitemporal set, carico l'img dell'anno 1988 per confrontarla con quella del 2011
 p224r63_1988 <-brick("p224r63_1988_masked.grd")
 p224r63_1988
 
@@ -133,7 +136,7 @@ plotRGB(p224r63_1988, r=1, g=2, b=3, stretch="Lin")
 plotRGB(p224r63_1988, r=3, g=2, b=1, stretch="Lin")
 plotRGB(p224r63_1988, r=4, g=3, b=2, stretch="Lin")
 
-#create a multiframe 2x2 with the images of 1988 and 2011 with linear and histrogram stretching and export it in PDF format
+#creare un multiframe con par e poi inserire le due immagini 1988 e 2011
 pdf("multitemp_PDF.pdf")
 par(mfrow=c(2,2))
 plotRGB(p224r63_2011, r=4, g=3, b=2, stretch="Lin")
@@ -151,60 +154,57 @@ dev.off()
 #Data and code from Emanuela Cosma
 
 #install.packages("raster")
-#install.packages("rasterVis")
+#install.packages("rasterVis") metodi di visualizzazione per pacchetti raster
 
-#set working directory and load "raster" and "rasterVis" packages
 library(raster)
 library(rasterVis)
 setwd("/Users/samuelepapiccio/lab/greenland")
 
-#import the files "lst" with the raster function
+#importo i file lst con la funzione raster land surface temperature
 lst_2000<-raster("lst_2000.tif")
 lst_2005<-raster("lst_2005.tif")
 lst_2010<-raster("lst_2010.tif")
 lst_2015<-raster("lst_2015.tif")
 
-#create a multiframe 2x2 with the four images
+#par
 par(mfrow=c(2,2))
 plot(lst_2000)
 plot(lst_2005)
 plot(lst_2010)
 plot(lst_2015)
 
-# create a list of files and insert on it all the file in the wd who have "lst" in the name
+#list of files, Pattern = nome in comune dei file
 list.files()
 rlist<-list.files(pattern="lst")
 
-#apply raster function to a list of files
+#apply a function to a list of files, lapply(x,Fun) = x = lista, Fun = funzione da applicare
 import<-lapply(rlist,raster)
 
-#create a single file with "stack" function and plot it (we can plot all the images without using par ...)
+#Stack crea un unico file con tutti gli elem della lista, utile per il plot
 TGr<-stack(import)
 plot(TGr)
 plotRGB(TGr,1,2,3,stretch="Lin")
 
+#
 levelplot(TGr)
 levelplot(TGr$lst_2000)
 cl <- colorRampPalette(c("blue","light blue","pink","red"))(100)
 levelplot(TGr, col.regions=cl)
-
-#rename the titles of the single images
+#rinomino i titoli delle singole immagini= names.att
 levelplot(TGr,col.regions=cl, names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
-#insert the main title
+#inserisco il titolo= main
 levelplot(TGr,col.regions=cl, main="LST variation in time",names.attr=c("July 2000","July 2005", "July 2010", "July 2015"))
 
 #melt
-
-#create a list of files
+#creo una lista
 meltlist<-list.files(pattern="melt")
-#apply raster function at the list of files
+#applico la funzione raster alla lista
 import_melt<-lapply(meltlist,raster)
-#create a single file with "stack" function and plot it
 melt<-stack(import_melt)
 
-#plot the result with levelplot
 levelplot(melt)
 
+#operazioni tra matrici
 melt_amount <- melt$X2007annual_melt - melt$X1979annual_melt
 levelplot(melt_amount)
 clb <- colorRampPalette(c("blue","white","red"))(100)
@@ -215,24 +215,39 @@ levelplot(melt_amount, col.regions=clb)
 
 # 3. R code Copernicus
 
+#R code copernicus
 #visualizing copernicus data
 
-#install.packages("ncdf4")
-
-#set working directory and load "raster" and "ncdf4" packages
+#install.packages("ncdf4") pacchetto per visualizzare dati copernicus
 library(raster)
 library(ncdf4)
+
 setwd("/Users/samuelepapiccio/lab/")
 
 #Burned Area
-#load the image with burned area in raster format, change color ramp palette and plot the results
 burnedarea<-raster("c_gls_BA300_202009200000_GLOBE_PROBAV_V1.1.1.nc")
 cl<-colorRampPalette(c("black","red","pink"))(100)
 plot(burnedarea,col=cl)
 
-#aggregate files (bi-linear resampling)
+#aggregate files, resamplig bi-linear
 ba_res<-aggregate(burnedarea,fact=25)
 plot(ba_res,col=cl)
+dev.off()
+
+#Albedo
+#install.packages("ncdf4")
+#library(raster)
+#library(ncdf4)
+setwd("/Users/samuelepapiccio/lab/")
+
+
+cl <- colorRampPalette(c('light blue','green','red','yellow'))(100) 
+cl <- colorRampPalette(c('light blue','green','red','yellow'))(100) 
+plot(albedo, col=cl)
+
+# resampling, fact=100 riduce di 100 pixels
+albedores <- aggregate(albedo, fact=100)
+plot(albedores, col=cl)
 
 #-------------------------------------------------------------
 
@@ -253,24 +268,25 @@ stitch("R_code_greenland.r", template=system.file("misc", "knitr-template.Rnw", 
 
 #R_code_multivariate_analysis.r
 
-#set working directory and load "raster" and "RStoolbox" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 
-#create a rasterBrick object and plot it
+# carichiamo l'immagine
 p224r63_2011<-brick("p224r63_2011_masked.grd")
 plot(p224r63_2011)
 
-#plot in a graph the values of the band 1 and the values of the band 2
-#pch:change the shape of points 
-#cex:change the dimension of points
+#plottiamo i valori della banda 1 contro i valori della banda 2
+#pch:cambio la forma dei punti, cex:cambio la dimensione dei punti, col cambia colore
 plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="red",pch=19,cex=2)
+#provo a cambiare parametri
+plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="black",pch=11,cex=0.02)
 
-#plot all the possible correlations with the function "pairs"
+#plottiamo tutte le correlazioni possibili con la funzione pairs,
 pairs(p224r63_2011)
 
-#aggregate cells: resampling
+
+#aggregate cells: resampling (ricampionamento)
 p224r63_2011res<-aggregate(p224r63_2011,fact=10,fun=mean)
 par(mfrow=c(2,1))
 plotRGB(p224r63_2011,r=4,g=3,b=2,stretch="lin")
@@ -281,7 +297,7 @@ p224r63_2011res_PCA<-rasterPCA(p224r63_2011res)
 
 summary(p224r63_2011res_PCA$model)
 plot(p224r63_2011res_PCA$map)
-plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="lin")
+plotRGB(p224r63_2011res_PCA$map, r=1, g=2, b=3, stretch="lin")
 
 #-------------------------------------------------------------
 
@@ -289,22 +305,23 @@ plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="lin")
 
 #R Code Classification
 
-#set working directory and load "raster" and "RStoolbox" packages
+#set working directory and load packages "raster" and "RStoolbox"
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 
-#function brick: create a raster brick object
+#function brick: create a raster brick objects, so= solar orbiter
 so<-brick("Solar_Orbiter_s_first_views_of_the_Sun_pillars.jpg")
 
 #Visualize RGB levels
 plotRGB(so,1,2,3,stretch="lin")
 
-#Unsupervised Classification
+#Unsupervised Classification, il software sceglie i parametri, per il plot dobbiamo legare la map
+#                img  n classi
 soc<-unsuperClass(so,nClasses=3)
 plot(soc$map)
 
-#Unsupervised Classification with 20 classes
+#Unsupervised classification with 20 classes
 soc20<-unsuperClass(so,nClasses=20)
 plot(soc20$map)
 
@@ -315,6 +332,10 @@ plot(suncl$map)
 
 #Grand Canyon
 #https://landsat.visibleearth.nasa.gov/view.php?id=80948
+
+#setwd("/Users/samuelepapiccio/lab/")
+#library(raster)
+#library(RStoolbox)
 
 #function brick: create a raster brick object
 gc<-brick("dolansprings_oli_2013088_canyon_lrg.jpg")
@@ -359,23 +380,24 @@ grid.arrange(p1, p2, nrow = 2) # this needs gridExtra
 
 #R_code_vegetation_index.r
 
-#set working directory and load "raster","RStoolbox","rasterdiv" and "rasterVis" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 library(rasterdiv) #for the wordlwide NDVI
 library(rasterVis)
 
-#function brick: create a raster brick object
+#function brick
 defor1<- brick("defor1.jpg")
 defor2<- brick("defor2.jpg")
 
-#plot the images
 par(mfrow=c(2,1))
 plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
 
 #different vegetation idex
+#per ogni pixel eseguo una sottrazione tra la banda dell' if e la banda del r
+#per vedere come si chiamano le bande all'interno del file, lo chiamo 
+#es. > defor1  e mi stampa tra le varie cose: "names: defor1.1, defor1.2, defor1.3"
 #time 1
 dvi1 <- defor1$defor1.1 - defor1$defor1.2
 plot(dvi1)
@@ -403,14 +425,13 @@ difdvi<-dvi1-dvi2
 cld <- colorRampPalette(c('blue','white','red'))(100)
 plot(difdvi,col=cld)
 
-#plot DVI at time 1 vs DVI at time 2 and differences
 par(mfrow=c(3,1))
 plot(dvi1, col=cl, main="DVI at time 1")
 plot(dvi2, col=cl, main="DVI at time 2")
 plot(difdvi,col=cld,main="Difference DVI")
 
 #normalized dvi
-#(NIR-RED)/(NIR+RED)
+#(NIR-RED)/(NIR+RED) , mettiamo sempre le parentesi per evitare errori di calcolo
 #time 1
 #ndvi1<-(defor1$defor1.1 - defor1$defor1.2)/(defor1$defor1.1 + defor1$defor1.2)
 ndvi1<-(dvi1)/(defor1$defor1.1 + defor1$defor1.2)
@@ -420,7 +441,6 @@ plot(ndvi1,col=cl)
 ndvi2<-(defor2$defor2.1 - defor2$defor2.2)/(defor2$defor2.1 + defor2$defor2.2)
 plot(ndvi2,col=cl)
 
-#plot NDVI at time 1 vs NDVI at time 2 
 par(mfrow=c(2,1))
 plot(ndvi1, col=cl, main="NDVI at time 1")
 plot(ndvi2, col=cl, main="NDVI at time 2")
@@ -447,6 +467,7 @@ copNDVI<-raster::reclassify(copNDVI, cbind(253:255, NA))
 plot(copNDVI)
 levelplot(copNDVI)
 
+
 #-------------------------------------------------------------
 
 # 9. R code land cover
@@ -455,20 +476,16 @@ levelplot(copNDVI)
 #MAP1 1992
 #MAP2 2006
 
-#set working directory and load "raster","RStoolbox","ggplot2" and "gridExtra" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(ggplot2)
 library(RStoolbox)
 library(gridExtra)
 
-#function brick: create a raster brick object and plot the results
-#defor 1
 defor1<-brick("defor1.jpg")
 plotRGB(defor1, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
 
-#defor 2
 defor2<-brick("defor2.jpg")
 plotRGB(defor2, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor2, r=1,g=2,b=3,stretch="lin")
@@ -478,6 +495,7 @@ ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor2, r=1,g=2,b=3,stretch="lin") 
 
 #multiframe with ggplot2 and gridextra
+#grid arrange: arrange multiple crops on a page
 p1<-ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
 p2<-ggRGB(defor2, r=1,g=2,b=3,stretch="lin")
 grid.arrange(p1,p2, nrow=2)
@@ -486,10 +504,8 @@ grid.arrange(p1,p2, nrow=2)
 #2 classes
 d1c<-unsuperClass(defor1,nClasses=2 )
 plot(d1c$map)
-
 d2c<-unsuperClass(defor2,nClasses=2 )
 plot(d2c$map)
-
 #class1: agriculture
 #class2:forest
  
@@ -501,22 +517,22 @@ plot(d1c3$map)
 
 d2c3<-unsuperClass(defor2,nClasses=3 )
 plot(d2c3$map) 
-######################### MAP 1
-#frequencies
+######################### MAP 1##################
+#frequencies : generate frequency tables
 freq(d1c$map)
+#risultato
 #     value  count
 #[1,]     1  34006
 #[2,]     2 307286
 
 #sommavalori
 s1<-307286+34006
-
 #proporzione
 prop1<-freq(d1c$map)/s1
-#prop foresta: 0.90036098
-#prop agriculture: 0.09963902
+#prop foresta: 0.90036098 =90%f
+#prop agriculture: 0.09963902=10%
 
-######################## MAP2
+######################## MAP2 #######################
 
 #frequencies 
 freq(d2c$map)
@@ -543,6 +559,7 @@ percentages<-data.frame(cover,percent_1992,percent_2006)
 percentages
 
 #let's plot them
+#     nome        aestetics x   y              colore       tipo grafico             
 ggplot(percentages,aes(x=cover,y=percent_1992,color=cover))+ geom_bar(stat="identity", fill="blue")
 ggplot(percentages,aes(x=cover,y=percent_2006,color=cover))+ geom_bar(stat="identity", fill="blue")
 
@@ -552,13 +569,14 @@ p2<-ggplot(percentages,aes(x=cover,y=percent_2006,color=cover))+ geom_bar(stat="
 
 grid.arrange(p1,p2,nrow=1)
 
+
+
 #-------------------------------------------------------------
 
 # 10. R code variability
 
 #R_code_variability.r #19/05/2020
 
-#set working directory and load "raster","RStoolbox","ggplot2", "viridis" and "gridExtra" packages
 setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
@@ -566,10 +584,8 @@ library(gridExtra) #for plotting ggplot togheder
 library(ggplot2)# for ggplotplotting
 library(viridis) #for ggplot colouring
 
-#function brick: create a raster brick object
 sent<-brick("sentinel.png")
-
-#default r=1,g=2,b=3
+# default r=1,g=2,b=3
 plotRGB(sent,stretch="lin") # = plotRGB(sent,r=1,g=2,b=3,stretch="lin")
 plotRGB(sent,r=2,g=1,b=3,stretch="lin")
 
@@ -582,7 +598,8 @@ plot(ndvi)
 cl <- colorRampPalette(c('black','white','red','magenta','green'))(100) 
 plot(ndvi,col=cl)
 
-#focal analysis sd3
+#focal analysis sd3, calculate focals with moving window
+#   dev std        name  window                  funzione
 ndvi_sd3 <-focal(ndvi, w=matrix(1/9,nrow=3,ncol=3),fun=sd)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 plot(ndvi_sd3,col=clsd)
@@ -591,11 +608,12 @@ plot(ndvi_sd3,col=clsd)
 ndvi_mean3 <-focal(ndvi, w=matrix(1/9,nrow=3,ncol=3),fun=mean)
 plot(ndvi_mean3,col=clsd)
 
-#focal analysis sd13
+
+#focal analysis sd13 pixel
 ndvi_sd13 <-focal(ndvi, w=matrix(1/169,nrow=13,ncol=13),fun=sd)
 plot(ndvi_sd13,col=clsd)
 
-#focal analysis sd5
+#focal analysis sd5 pixel
 ndvi_sd5 <-focal(ndvi, w=matrix(1/25,nrow=5,ncol=5),fun=sd)
 plot(ndvi_sd5,col=clsd)
 
@@ -604,7 +622,7 @@ sentpca<- rasterPCA(sent)
 plot(sentpca$map)
 
 summary(sentpca$map)
-#the first PC contain the 67.36% of original information
+#the first PC contai the 67.36% of original information
 
 ############################
 pc1 <- sentpca$map$PC1
@@ -664,6 +682,7 @@ scale_fill_viridis(option = "turbo") +
 ggtitle("Standard deviation of PC1 by turbo colour scale")
 
 grid.arrange(p1, p2, p3, nrow = 1)
+
 
 #-------------------------------------------------------------
 
