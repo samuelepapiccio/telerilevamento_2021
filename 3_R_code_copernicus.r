@@ -1,7 +1,7 @@
 #R code copernicus
 #visualizing copernicus data
 
-#install.packages("ncdf4")
+#install.packages("ncdf4") pacchetto per visualizzare dati copernicus
 library(raster)
 library(ncdf4)
 
