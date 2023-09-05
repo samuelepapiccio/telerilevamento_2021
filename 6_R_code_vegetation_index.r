@@ -15,6 +15,9 @@ plotRGB(defor1, r=1, g=2, b=3, stretch="lin")
 plotRGB(defor2, r=1, g=2, b=3, stretch="lin")
 
 #different vegetation idex
+#per ogni pixel eseguo una sottrazione tra la banda dell' if e la banda del r
+#per vedere come si chiamano le bande all'interno del file, lo chiamo 
+#es. > defor1  e mi stampa tra le varie cose: "names: defor1.1, defor1.2, defor1.3"
 #time 1
 dvi1 <- defor1$defor1.1 - defor1$defor1.2
 plot(dvi1)
@@ -48,7 +51,7 @@ plot(dvi2, col=cl, main="DVI at time 2")
 plot(difdvi,col=cld,main="Difference DVI")
 
 #normalized dvi
-#(NIR-RED)/(NIR+RED)
+#(NIR-RED)/(NIR+RED) , mettiamo sempre le parentesi per evitare errori di calcolo
 #time 1
 #ndvi1<-(defor1$defor1.1 - defor1$defor1.2)/(defor1$defor1.1 + defor1$defor1.2)
 ndvi1<-(dvi1)/(defor1$defor1.1 + defor1$defor1.2)
