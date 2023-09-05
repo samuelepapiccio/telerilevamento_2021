@@ -21,19 +21,17 @@ ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
 ggRGB(defor2, r=1,g=2,b=3,stretch="lin") 
 
 #multiframe with ggplot2 and gridextra
+#grid arrange: arrange multiple crops on a page
 p1<-ggRGB(defor1, r=1,g=2,b=3,stretch="lin")
 p2<-ggRGB(defor2, r=1,g=2,b=3,stretch="lin")
 grid.arrange(p1,p2, nrow=2)
 
 #unsupervised classification
 #2 classes
-
 d1c<-unsuperClass(defor1,nClasses=2 )
 plot(d1c$map)
-
 d2c<-unsuperClass(defor2,nClasses=2 )
 plot(d2c$map)
-
 #class1: agriculture
 #class2:forest
  
@@ -45,22 +43,22 @@ plot(d1c3$map)
 
 d2c3<-unsuperClass(defor2,nClasses=3 )
 plot(d2c3$map) 
-######################### MAP 1
-#frequencies
+######################### MAP 1##################
+#frequencies : generate frequency tables
 freq(d1c$map)
+#risultato
 #     value  count
 #[1,]     1  34006
 #[2,]     2 307286
 
 #sommavalori
 s1<-307286+34006
-
 #proporzione
 prop1<-freq(d1c$map)/s1
-#prop foresta: 0.90036098
-#prop agriculture: 0.09963902
+#prop foresta: 0.90036098 =90%f
+#prop agriculture: 0.09963902=10%
 
-######################## MAP2
+######################## MAP2 #######################
 
 #frequencies 
 freq(d2c$map)
@@ -87,6 +85,7 @@ percentages<-data.frame(cover,percent_1992,percent_2006)
 percentages
 
 #let's plot them
+#     nome        aestetics x   y              colore       tipo grafico             
 ggplot(percentages,aes(x=cover,y=percent_1992,color=cover))+ geom_bar(stat="identity", fill="blue")
 ggplot(percentages,aes(x=cover,y=percent_2006,color=cover))+ geom_bar(stat="identity", fill="blue")
 
