@@ -703,6 +703,8 @@ plotRGB(defor2,r=1,g=2,b=3, stretch="lin")
 plotRGB(defor2,r=1,g=2,b=3, stretch="hist")
 
 #spectral signatures defor2
+#click Query by clicking on a map
+#     name      id,x,y=true  type=points,pointshape, dimens car, colore
 click(defor2, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="magenta")
 
 #results:
@@ -712,6 +714,7 @@ click(defor2, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="magenta")
 
 #define the columns of the dataset:
 band<- c(1,2,3)
+#valori di riflettanza della foresta e per l'acqua ottenuti prima con click
 forest<- c(197,8,15)
 water<-c(72,91,139)
 
@@ -728,9 +731,12 @@ ggplot(spectrals, aes(x=band))+
  
  defor1<-brick("defor1.jpg")
 plotRGB(defor1,r=1,g=2,b=3, stretch="lin")
+defor2<-brick("defor2.jpg")
+plotRGB(defor2,r=1,g=2,b=3, stretch="lin")
 
 #spectral signatures defor1
 click(defor1, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="magenta")
+click(defor2, id=T, xy=T, cell=T, type="p", pch=16, cex=4, col="blue")
 
 #results defor1:
 #     x     y   cell defor1.1 defor1.2 defor1.3
