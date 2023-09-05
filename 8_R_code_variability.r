@@ -21,7 +21,8 @@ plot(ndvi)
 cl <- colorRampPalette(c('black','white','red','magenta','green'))(100) 
 plot(ndvi,col=cl)
 
-#focal analysis sd3
+#focal analysis sd3, calculate focals with moving window
+#   dev std        name  window                  funzione
 ndvi_sd3 <-focal(ndvi, w=matrix(1/9,nrow=3,ncol=3),fun=sd)
 clsd <- colorRampPalette(c('blue','green','pink','magenta','orange','brown','red','yellow'))(100) 
 plot(ndvi_sd3,col=clsd)
@@ -30,11 +31,12 @@ plot(ndvi_sd3,col=clsd)
 ndvi_mean3 <-focal(ndvi, w=matrix(1/9,nrow=3,ncol=3),fun=mean)
 plot(ndvi_mean3,col=clsd)
 
-#focal analysis sd13
+
+#focal analysis sd13 pixel
 ndvi_sd13 <-focal(ndvi, w=matrix(1/169,nrow=13,ncol=13),fun=sd)
 plot(ndvi_sd13,col=clsd)
 
-#focal analysis sd5
+#focal analysis sd5 pixel
 ndvi_sd5 <-focal(ndvi, w=matrix(1/25,nrow=5,ncol=5),fun=sd)
 plot(ndvi_sd5,col=clsd)
 
