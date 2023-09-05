@@ -4,15 +4,17 @@ setwd("/Users/samuelepapiccio/lab/")
 library(raster)
 library(RStoolbox)
 
-#
+# carichiamo l'immagine
 p224r63_2011<-brick("p224r63_2011_masked.grd")
 plot(p224r63_2011)
 
 #plottiamo i valori della banda 1 contro i valori della banda 2
-#pch:cambio la forma dei punti, cex:cambio la dimensione dei punti
+#pch:cambio la forma dei punti, cex:cambio la dimensione dei punti, col cambia colore
 plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="red",pch=19,cex=2)
+#provo a cambiare parametri
+plot(p224r63_2011$B1_sre,p224r63_2011$B2_sre, col="black",pch=11,cex=0.02)
 
-#plottiamo tutte le correlazioni possibili con la funzione pairs
+#plottiamo tutte le correlazioni possibili con la funzione pairs,
 pairs(p224r63_2011)
 
 
@@ -27,4 +29,4 @@ p224r63_2011res_PCA<-rasterPCA(p224r63_2011res)
 
 summary(p224r63_2011res_PCA$model)
 plot(p224r63_2011res_PCA$map)
-plotRGB(p224r63_2011res_pca$map, r=1, g=2, b=3, stretch="lin")
+plotRGB(p224r63_2011res_PCA$map, r=1, g=2, b=3, stretch="lin")
